@@ -36,7 +36,3 @@ src/app/management_v1/promotion/promotion.tpl.html
 # 별도 파일 로딩필요
 angular-file-upload-shim?
 angular-strap.tpl?
-
-# script tag
-src/app/shared/views/nav.tpl.html
-src/app/cms/_directives/NovelViewer/novel-viewer.html
