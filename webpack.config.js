@@ -14,16 +14,15 @@ var debug = process.env.NODE_ENV !== 'production'
 module.exports = {
     entry: {
         vendor: ["jquery"],
-        'dist/app/p1/app': "./src/page1/page1.js",
-        'dist/app/p2/app': "./src/page2/page2.js",
-        'dist/app/p3/app': "./src/page3/page3.js"
+        'app/p1/app': "./src/page1/page1.js",
+        'app/p2/app': "./src/page2/page2.js",
+        'app/p3/app': "./src/page3/page3.js"
     },
     // entry: './entry.js',
     output: {
-        path: './',
-        filename: '[name].js',
+        path: './dist/',
+        filename: '[name]-[hash].js',
         pathinfo: true,
-        publicPath: '/assets/'
     },
     devServer: {
         contentBase: dir_build
@@ -75,26 +74,26 @@ module.exports = {
         // Avoid publishing files when compilation fails
         new CommonsChunkPlugin({
             name: "vendor",
-            filename: "dist/lib/commons.js",
+            filename: "lib/commons.js",
             minChunks: Infinity,
         }),
         new HtmlWebpackPlugin({
             title: "Title A",
-            filename: "/dist/app/p1/index.html",
+            filename: "app/p1/index.html",
             template: './html/index.html',
-            chunks: ['vendor', 'dist/app/p1/app']
+            chunks: ['vendor', 'app/p1/app']
         }),
         new HtmlWebpackPlugin({
             title: "Title B",
-            filename: "/dist/app/p2/index.html",
+            filename: "app/p2/index.html",
             template: './html/index.html',
-            chunks: ['vendor', 'dist/app/p2/app']
+            chunks: ['vendor', 'app/p2/app']
         }),
         new HtmlWebpackPlugin({
             title: "Title C",
-            filename: "/dist/app/p3/index.html",
+            filename: "app/p3/index.html",
             template: './html/index.html',
-            chunks: ['vendor', 'dist/app/p3/app']
+            chunks: ['vendor', 'app/p3/app']
         }),
         new webpack.NoErrorsPlugin(),
         new webpack.ProvidePlugin({
@@ -106,23 +105,16 @@ module.exports = {
             // This is for summernote. but it doesn't work because it has problem with context
             'require.specified': 'require.resolve'
         }),
-        // new ExtractTextPlugin("[name].css")
-        // This is for bower package
-        // new webpack.ResolverPlugin(
-        //   new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-        // ),
-        // new webpack.IgnorePlugin(/node_modules\/dist\/summernote/),
-        // new webpack.ContextReplacementPlugin(/node_modules\/dist\/summernote/, /No/),
-        // new webpack.optimize.DedupePlugin(),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     }
-        // }),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
     ],
     stats: {
         colors: true,
         reasons: true
     },
-    devtool: 'eval' //source-map
+    devtool: 'source-map'
 }
