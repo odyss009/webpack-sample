@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 module.exports = {
   output: {
@@ -24,6 +25,10 @@ module.exports = {
         // This has effect on the react lib size
         NODE_ENV: JSON.stringify("production")
       }
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      analyzerPort: 8888
     })
   ],
   devtool: 'sourcemap'
